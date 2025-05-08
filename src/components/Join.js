@@ -1,15 +1,60 @@
 import React, { useState } from 'react';
-import { TextField, Button, Container, Typography, Box, Input } from '@mui/material';
-import { Link } from 'react-router-dom';
+import {
+  TextField,
+  Button,
+  Container,
+  Typography,
+  Box,
+  Input
+} from '@mui/material';
+import { Link, useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 function Join() {
   const [profileImage, setProfileImage] = useState(null);
+  const [file, setFile] = useState(null);
+  const [form, setForm] = useState({
+    email: '',
+    password: '',
+    userName: '',
+    phone: '',
+  });
 
-  // 이미지 파일이 선택될 때 호출되는 함수
+  const navigate = useNavigate();
+
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
+      setFile(file); // 파일 저장
       setProfileImage(URL.createObjectURL(file)); // 미리보기 이미지 설정
+    }
+  };
+
+  const handleChange = (e) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async () => {
+    try {
+      const formData = new FormData();
+      for (let key in form) {
+        formData.append(key, form[key]);
+      }
+      if (file) {
+        formData.append('file', file);
+      }
+
+      await axios.post('http://localhost:3005/member/join', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      });
+
+      alert('회원가입 성공!');
+      navigate('/login');
+    } catch (err) {
+      console.error('회원가입 실패:', err);
+      alert('에러 발생');
     }
   };
 
@@ -25,27 +70,15 @@ function Join() {
         <Typography variant="h4" gutterBottom>
           회원가입
         </Typography>
-        <TextField label="Username" variant="outlined" margin="normal" fullWidth />
-        <TextField label="Email" variant="outlined" margin="normal" fullWidth />
-        <TextField
-          label="Password"
-          variant="outlined"
-          margin="normal"
-          fullWidth
-          type="password"
-        />
+        <TextField label="Email" name="email" onChange={handleChange} fullWidth margin="normal" />
+        <TextField label="Password" name="password" type="password" onChange={handleChange} fullWidth margin="normal" />
+        <TextField label="Username" name="userName" onChange={handleChange} fullWidth margin="normal" />
+        <TextField label="Phone" name="phone" onChange={handleChange} fullWidth margin="normal" />
 
-        {/* 프로필 선택 텍스트와 파일 업로드 */}
         <Typography variant="body1" style={{ marginTop: '20px' }}>
           프로필 선택
         </Typography>
-        <Input
-          type="file"
-          onChange={handleImageChange}
-          inputProps={{ accept: 'image/*' }}
-          fullWidth
-          style={{ marginTop: '10px' }}
-        />
+        <Input type="file" onChange={handleImageChange} inputProps={{ accept: 'image/*' }} fullWidth />
         {profileImage && (
           <Box
             component="img"
@@ -55,7 +88,7 @@ function Join() {
           />
         )}
 
-        <Button variant="contained" color="primary" fullWidth style={{ marginTop: '20px' }}>
+        <Button variant="contained" onClick={handleSubmit} fullWidth style={{ marginTop: '20px' }}>
           회원가입
         </Button>
         <Typography variant="body2" style={{ marginTop: '10px' }}>

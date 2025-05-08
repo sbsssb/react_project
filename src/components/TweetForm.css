@@ -1,6 +1,7 @@
 .tweet-form {
     background-color: white;
     padding: 16px;
+    margin-top: 60px;
     margin-bottom: 20px;
     border-radius: 12px;
     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
@@ -28,5 +29,37 @@
   
   .tweet-form button:hover {
     background-color: #1991da;
+  }
+  
+  .image-preview {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+  
+  .image-thumbnail {
+    position: relative;
+  }
+  
+  .image-thumbnail img {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 10px;
+  }
+  
+  .image-thumbnail button {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    background-color: red;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    font-size: 12px;
   }
   

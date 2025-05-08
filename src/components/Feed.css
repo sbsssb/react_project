@@ -1,0 +1,104 @@
+/* 이미지 썸네일 */
+.tweet {
+    width: 500px;
+}
+
+.tweet-images {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+  }
+  
+  .tweet-images img {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+  
+  /* 모달 */
+  .image-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+  }
+  
+  .image-modal img {
+    width: 600px;            /* 고정 너비 */
+    height: 400px;           /* 고정 높이 */
+    object-fit: contain;     /* 비율 유지하며 최대한 채움 */
+    background-color: #000;  /* 이미지 비지 않을 때 배경 */
+    border-radius: 10px;
+    transition: all 0.3s ease;
+  }
+  
+  /* 버튼 공통 */
+  .image-modal button {
+    position: absolute;
+    background: rgba(255, 255, 255, 0.7);
+    border: none;
+    font-size: 24px;
+    padding: 8px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .close-button {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    font-size: 36px;
+    color: white;
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .image-container {
+    display: flex;
+    overflow: hidden;
+    position: relative;
+  }
+  
+  .image-container img {
+    max-width: 100%;
+    height: auto;
+    object-fit: contain; /* 이미지 비율을 유지하며 크기 맞추기 */
+    transition: transform 0.5s ease-in-out; /* 애니메이션 효과 */
+    border-radius: 8px;
+  }
+  
+  /* 좌우 버튼 스타일 */
+  .prev-button, .next-button {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0, 0, 0, 0.5);
+    color: white;
+    font-size: 24px;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    z-index: 10;
+  }
+  
+  .prev-button {
+    left: 10px;
+  }
+  
+  .next-button {
+    right: 10px;
+  }
+  
+  .prev-button:hover, .next-button:hover {
+    background: rgba(0, 0, 0, 0.8);
+  }
+  

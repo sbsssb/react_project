@@ -1,71 +1,57 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { Route, Routes, useLocation, useNavigate } from 'react-router-dom';
+import { Box, CssBaseline } from '@mui/material';
 import Header from './components/Header';
 import Sidebar from './components/Sidebar';
 import TweetForm from './components/TweetForm';
 import TweetItem from './components/TweetItem';
+import Feed from './components/Feed';
+import Join from './components/Join';
+import Login from './components/Login';
+import { jwtDecode } from 'jwt-decode';
 
 function App() {
-  const [tweets, setTweets] = useState([]);
+  const location = useLocation();
+  const isAuthPage = location.pathname === '/login' || location.pathname === '/join' || location.pathname === '/';
+  const [user, setUser] = useState(null);
+  const navigate = useNavigate();
 
-  const handleAddTweet = (content) => {
-    const newTweet = {
-      id: Date.now(),
-      username: 'user1',
-      content,
-      likes: 0,
-      comments: [],
-      createdAt: new Date().toISOString()
-    };
-    setTweets([newTweet, ...tweets]);
-  };
-
-  const handleLike = (id) => {
-    setTweets(tweets.map(tweet =>
-      tweet.id === id ? { ...tweet, likes: tweet.likes + 1 } : tweet
-    ));
-  };
-
-  const handleDelete = (id) => {
-    setTweets(tweets.filter(tweet => tweet.id !== id));
-  };
-
-  const handleEdit = (id, newContent) => {
-    setTweets(tweets.map(tweet =>
-      tweet.id === id ? { ...tweet, content: newContent } : tweet
-    ));
-  };
-
-  const handleAddComment = (id, commentText) => {
-    setTweets(tweets.map(tweet =>
-      tweet.id === id
-        ? {
-            ...tweet,
-            comments: [...tweet.comments, { id: Date.now(), text: commentText }]
-          }
-        : tweet
-    ));
-  };
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      try {
+        const decoded = jwtDecode(token);
+        console.log(decoded);
+        setUser({
+          email: decoded.sessionEmail,
+          name : decoded.sessionName
+        });
+      } catch (e) {
+        console.error("Invalid token");
+        localStorage.removeItem('token');
+        navigate('/login');
+      }
+    }
+  }, []);
 
   return (
-    <div className="app-container">
+    <Box sx={{ display: 'flex' }}>
+      <CssBaseline />
       <Header />
-      <div className="main-content">
-          <Sidebar />
-          <div className="feed-container">
-            <TweetForm onTweetSubmit={handleAddTweet} />
-            {tweets.map((tweet) => (
-              <TweetItem
-                key={tweet.id}
-                tweet={tweet}
-                onLike={() => handleLike(tweet.id)}
-                onDelete={() => handleDelete(tweet.id)}
-                onEdit={handleEdit}
-                onAddComment={handleAddComment}
-              />
-            ))}
-        </div>
-      </div>
-    </div>
+      {!isAuthPage && <Sidebar />}
+      <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
+        <Routes>
+          <Route path="/" element={<Login />} />
+          <Route path="/feed" element={user ? <Feed user={user} /> : <div>Loading...</div>} />
+
+          <Route path="/tweetform" element={user ? <TweetForm user={user} /> : <div>Loading...</div>} />
+
+          <Route path="/tweetitem" element={<TweetItem />} />
+          <Route path="/join" element={<Join />} />
+          <Route path="/login" element={<Login />} />
+        </Routes>
+      </Box>
+    </Box>
   );
 }
 

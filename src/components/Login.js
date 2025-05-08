@@ -28,7 +28,7 @@ function Login(){
       headers : {
         "Content-type" : "application/json"
       },
-      body : JSON.stringify({email : userId, pwd : password})
+      body : JSON.stringify({email : userId, password : password})
     })
     .then(res => res.json())
     .then(data => {

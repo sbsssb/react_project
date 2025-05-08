@@ -2,14 +2,14 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 import './index.css';
-import App2 from './App2';  // App 컴포넌트 import
+import App from './App';  // App 컴포넌트 import
 import reportWebVitals from './reportWebVitals';  // 성능 측정을 위한 함수 import (원하는 경우 사용)
 
 const root = ReactDOM.createRoot(document.getElementById('root'));  // root element에 렌더링
 
 root.render(
   <BrowserRouter>
-    <App2 />
+    <App />
   </BrowserRouter>
 );
 
