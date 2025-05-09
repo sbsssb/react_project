@@ -22,7 +22,7 @@ function Feed({ user }) {
 const handleDelete = async (tweetId) => {
   if (!window.confirm("정말 삭제하시겠습니까?")) return;
   try {
-    const res = await fetch(`http://localhost:3005/tweet/${tweetId}`, {
+    const res = await fetch(`http://localhost:3005/feed/${tweetId}`, {
       method: 'DELETE',
     });
     if (res.ok) {
@@ -34,6 +34,33 @@ const handleDelete = async (tweetId) => {
     console.error("삭제 중 오류:", err);
   }
 };
+
+//리트윗
+const handleRetweet = async (postId) => {
+  const token = localStorage.getItem('token');
+  console.log("🔑 토큰 확인:", token); // ← 이 줄 추가
+  try {
+    const res = await fetch("http://localhost:3005/feed/retweet", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`
+      },
+      credentials: 'include', // 이거 추가!
+      body: JSON.stringify({ postId })
+    });
+
+    if (res.ok) {
+      fetchTweets(); // 새로고침
+    } else {
+      const msg = await res.text();
+      alert("리트윗 실패: " + msg);
+    }
+  } catch (err) {
+    console.error("리트윗 오류:", err);
+  }
+};
+
 
   useEffect(() => {
     fetchTweets();
@@ -67,8 +94,11 @@ const handleDelete = async (tweetId) => {
       <TweetForm onTweetSubmit={fetchTweets} user={user} />
       {tweets.map((tweet, index) => (
         <div key={index} className="tweet">
-          <p><strong>{tweet.username}</strong></p>
+          <p>
+            <strong>{tweet.retweeter ? tweet.retweeter + " (리트윗)" : tweet.username}</strong>
+          </p>
           <p>{tweet.content}</p>
+
 
           {/* 이미지가 있을 경우 */}
           {tweet.images && tweet.images.length > 0 && (
@@ -93,11 +123,11 @@ const handleDelete = async (tweetId) => {
 
           <div className="tweet-actions">
             <button onClick={() => console.log("답글", tweet.id)}>💬 답글</button>
-            <button onClick={() => console.log("리트윗", tweet.id)}>🔁 리트윗</button>
+            <button onClick={() => handleRetweet(tweet.id)}>🔁 리트윗</button>
             <button onClick={() => console.log("인용", tweet.id)}>📝 인용</button>
             <button onClick={() => console.log("좋아요", tweet.id)}>❤️ 좋아요 ({tweet.likeCount || 0})</button>
              {/* 작성자 본인인 경우만 삭제 버튼 표시 */}
-              {tweet.username === user.username && (
+             {tweet.username === user.name && (
                 <button onClick={() => handleDelete(tweet.id)}>🗑 삭제</button>
               )}
           
