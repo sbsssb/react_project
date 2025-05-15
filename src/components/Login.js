@@ -15,46 +15,75 @@ import {
   DialogActions
 } from '@mui/material';
 
-function Login(){
+function Login() {
   const [userId, setUserId] = useState('');
   const [password, setPassword] = useState('');
   const [dialogOpen, setDialogOpen] = useState(false);
   const [dialogMessage, setDialogMessage] = useState('');
   const navigate = useNavigate();
+
   const handleLogin = () => {
-
-    fetch("http://localhost:3005/member",{
-      method : "POST",
-      headers : {
-        "Content-type" : "application/json"
+    fetch("http://localhost:3005/member", {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json"
       },
-      body : JSON.stringify({email : userId, password : password})
+      body: JSON.stringify({ email: userId, password: password })
     })
-    .then(res => res.json())
-    .then(data => {
-      console.log(data);
-      if (data.success) {
-        // setDialogMessage(data.message);
-        // setDialogOpen(true);
-        localStorage.setItem("token", data.token);
-        navigate("/feed");
-      } else {
-        setDialogMessage(data.message);
-        setDialogOpen(true);
-      }
-      
-    })
-
-    
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          localStorage.setItem("token", data.token);
+          localStorage.setItem("email", userId);
+          console.log("Email in LocalStorage:", localStorage.getItem("email"));
+          navigate("/feed");
+        } else {
+          setDialogMessage(data.message);
+          setDialogOpen(true);
+        }
+      });
   };
 
   const handleDialogClose = () => {
     setDialogOpen(false);
   };
+
   return (
-    <Container maxWidth="sm">
-      <Box mt={10}>
-        <Card sx={{ p: 4 }}>
+    <Box
+      sx={{
+        height: '100vh',
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#f2f2f2',
+      }}
+    >
+      {/* 왼쪽 환영 메시지 */}
+      <Box
+        sx={{
+          flex: 1,
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          flexDirection: 'column',
+          padding: 4,
+          backgroundColor: '#000000',
+          height: '100%',
+        }}
+      >
+        <Typography variant="h3" fontWeight="bold" color='white' gutterBottom>
+          Welcome Back!
+        </Typography>
+        <Typography variant="h6" color="white" textAlign="center">
+          SNS에 오신 것을 환영합니다.<br />
+          소셜 피드를 확인하고 친구들과 소통하세요!
+        </Typography>
+      </Box>
+
+      {/* 오른쪽 로그인 폼 */}
+      <Box sx={{ flex: 1, display: 'flex', justifyContent: 'center' }}>
+        <Card sx={{ p: 4, width: '100%', maxWidth: 400, m: 4 }}>
           <Typography variant="h5" textAlign="center" gutterBottom>
             로그인
           </Typography>
@@ -82,6 +111,7 @@ function Login(){
                 fullWidth
                 size="large"
                 onClick={handleLogin}
+                sx={{ backgroundColor: 'black', '&:hover': { backgroundColor: '#333' } }}
               >
                 로그인
               </Button>
@@ -105,8 +135,8 @@ function Login(){
           <Button onClick={handleDialogClose}>확인</Button>
         </DialogActions>
       </Dialog>
-    </Container>
-  )
+    </Box>
+  );
 }
 
-export default Login
+export default Login;

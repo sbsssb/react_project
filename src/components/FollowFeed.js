@@ -3,7 +3,7 @@ import TweetForm from './TweetForm';
 import './Feed.css';
 import { Link } from 'react-router-dom';
 
-function Feed() {
+function FollowFeed() {
   const [tweets, setTweets] = useState([]);
   const [modalImages, setModalImages] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -31,7 +31,7 @@ function Feed() {
     setEmail(emailFromStorage); // 이메일 상태 설정
     console.log("현재 이메일:", emailFromStorage);
 
-    const res = await fetch(`http://localhost:3005/feed?email=${emailFromStorage}`, {
+    const res = await fetch(`http://localhost:3005/feed/followfeed?email=${emailFromStorage}`, {
       method: 'GET',
       credentials: 'include',
       headers: {
@@ -56,7 +56,7 @@ function Feed() {
   const handleDelete = async (tweetId) => {
     if (!window.confirm("정말 삭제하시겠습니까?")) return;
     try {
-      const res = await fetch(`http://localhost:3005/feed/delete/${tweetId}`, {
+      const res = await fetch(`http://localhost:3005/feed/${tweetId}`, {
         method: 'DELETE',
       });
       if (res.ok) {
@@ -489,7 +489,7 @@ function Feed() {
                         <div key={sub.subreplyId} style={{ display: 'flex', marginTop: '8px', marginLeft: '20px' }}>
                           {/* 프로필 이미지 */}
                           <img
-                            src={`http://localhost:3005/${sub.profileImg}`}
+                            src={`http://localhost:3005/${reply.profileImg}`}
                             alt="프로필"
                             style={{
                               width: "32px",
@@ -546,4 +546,4 @@ function Feed() {
   );
 }
 
-export default Feed;
+export default FollowFeed;

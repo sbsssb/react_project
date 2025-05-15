@@ -10,11 +10,11 @@ function Header() {
         <Link to="/">MySNS</Link>
       </div>
       <div className="menu">
-        <button className="menu-item">타임라인</button>
-        <button className="menu-item">살펴보기</button>
-        <button className="menu-item">알림</button>
-        <button className="menu-item">프로필</button>
-        <button className="menu-item" component={Link} to="/login">로그인</button>
+        <button className="menu-item"></button>
+        <button className="menu-item"></button>
+        <button className="menu-item"></button>
+        <button className="menu-item"></button>
+        <button className="menu-item" component={Link} to="/login"></button>
       </div>
     </div>
   );
