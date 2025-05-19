@@ -1,10 +1,10 @@
-# Getting Started with Create React App
+## 💡 프로젝트 소개
+- Express, Node.js와 React를 활용하여 만든 SNS 페이지 개인 프로젝트입니다.
+- UI는 인스타그램과 트위터를 참고하였습니다.
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
-
-## Available Scripts
-
-In the project directory, you can run:
+## 🗓 개발 기간
+- 05/07 ~ 05/15
+-- 프로젝트 기획 구상, DB설계, 서비스 개발, 테스트 및 수정
 
 ### `npm start`
 
