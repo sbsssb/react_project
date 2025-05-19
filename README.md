@@ -34,11 +34,14 @@
 ![image](https://github.com/user-attachments/assets/e08a15ac-c224-4dc4-bb9b-708fafd4be25)
 - 사용자들끼리 메시지 주고받기 가능.
 - 사이드바에 메시지 알림 기능 추가하여 읽지 않은 메시지가 있을 시 개수로 표시.
-- 
+- 메시지 탭으로 가면 읽지 않은 메시지 채팅별로 표시.
 
 5. 마이페이지/팔로우,팔로잉
 ![image](https://github.com/user-attachments/assets/06adae42-581c-4b63-8fca-79dc42d3926a)
-
+![image](https://github.com/user-attachments/assets/ffb5eba4-2795-4535-9dda-4930004897c6)
+- 프로필 편집, 내가 올린 글, 좋아요한 글 확인 가능.
+- 다른 사용자 프로필로 가면 팔로우 가능.
+- 팔로우/팔로잉 목록 확인 가능.
 
 
 
