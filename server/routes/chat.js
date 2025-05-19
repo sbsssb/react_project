@@ -169,7 +169,7 @@ router.get('/room/:roomId/messages', async (req, res) => {
   try {
     // 쿼리 문자열 및 파라미터 동적 구성
     let query = `
-      SELECT cm.id, cm.sender_id, cm.message, cm.sent_at, u.username
+      SELECT cm.id, cm.sender_id, cm.message, cm.sent_at, u.username,
     (
       SELECT JSON_ARRAYAGG(crs.user_id)
       FROM chat_read_status crs
