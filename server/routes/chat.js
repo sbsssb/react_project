@@ -142,7 +142,7 @@ router.get('/room/:roomId', async (req, res) => {
 
     // 멤버 정보도 포함하고 싶다면 아래도 추가 (선택)
     const [members] = await db.query(`
-      SELECT u.id, u.username, u.email, u.profilImg
+      SELECT u.id, u.username, u.email
       FROM chat_room_members crm
       JOIN users u ON crm.user_id = u.email
       WHERE crm.room_id = ?
